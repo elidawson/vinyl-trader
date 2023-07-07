@@ -2,61 +2,73 @@
 
 ![record image](images/readme-images/record.jpeg)
 
-vinyl trader is a website used to list, sell, and trade vinyl records. 
+vinyl trader is a web application used to favorite and comment on vinyl records. 
 
-My capstone project for the Flatiron Software Engineering Bootcamp.
+## user stories
+* users can browse, favorite, like and comment records in a timeline feed.
+* users can filter timeline by location, name, price, and date added.
+* users can search all listed vinyl.
+* users can post their own records to the database.
+* users can create, edit, and delete profile.
+* users can see all of their posted vinyl and activity in their profile page.
 
-## User Stories
+## stretch goals
+* users can list records for sale or trade
+* ability to actually purchase records (Ecommerce)
 
-* Users can browse, favorite, like and comment on vinyl records for sale or trade, in a timeline feed.
-* Users can filter timeline by location, name, price, and date added.
-* Users can post their own records for sale or trade.
-* Users can create, edit, and delete profile
-* Users can see all of their posted vinyl and activity in their profile page.
-* Users can search all listed vinyl
-
-## Stretch Goals
-* Users can interact directly with other users via Direct messages.
-* Users can follow other users.
-* Ability to actually purchase records (Stripe Integration)
-
-## API Routes
-| API Route | Request Method | Body | Response |
+## api routes
+|route|request|purpose|response|
 |:---:|:---:|:---:|:---:|
-|/signup|POST|{name, email, password}|{id, name, email, password}, 201| 
-|/login|POST|{email, password}|{{"message": "login successful"}, "user": {id, name, email}}, 201|
-|logout|DELETE||{"message": "logout successful"}, 202|
-|users/{id}|GET||{id, name, email}, 200|
-|/users/{id}|PATCH| {"email", "password"}|{"id", "name", "email"}, 200|
-|/users/{id}|DELETE||{}, 204|
-|/vinyl|GET||{{id, title, artist, used, release_year, size, like_count}, {...}, {...}}, 200|
-|/vinyl/{id}|GET|{id}|{id, title, artist, used, release_year, size, like_count}, 200|
-|/vinyl/{id}|PATCH|{id}|{id, title, artist, used, release_year, size, like_count}, 200|
-|vinyl/{id}|DELETE||{}, 204|
-|comments/{id}|GET|{id}|{record_id, body}, 200|
-|comments/{id}|POST|{record_id, body}|{record_id, user_id, body}, 201|
-|comments/{id}|PATCH|{body}|{record_id, user_id, body}, 201|
-|comments/{id}|DELETE||{}, 204|
-|genres|GET||{{name, records}, {...}, {...}}, 200|
-|genres/{id}|GET|{id}|{name, records}, 200|
-|genres|POST|{name}|{name, records}, 201|
-|genres|DELETE||{}, 204|
+|/signup|POST|create new user account|{id, username, email}, 201| 
+|/login|POST|login current user|{{"message": "login successful"}, "user": {id, username, email}}, 201|
+|/logout|DELETE|logout current user|{"message": "logout successful"}, 202|
+|user/{id}|GET|get user by id|{id, username, name, email, location, bio}, 200|
+|/user/{id}|PATCH|edit user|{id, username, name, email, location, bio}, 200|
+|/user/{id}|DELETE|delete user|{}, 204|
+|/user/records|GET|gets users records|{username, {records}}, 200|
+|/user/favs|GET|gets users favorite records|{username, {records}}, 200|
+|/user/favs/{id}|DELETE|deletes user favorite|{}, 204|
+|/record|GET|get all records|{{id, title, artist, used, release_year, size, like_count}, {...}, {...}}, 200|
+|/record|POST|create new record|{id, title, artist, used, release_year, size, like_count}, 201|
+|/record/{id}|GET|get record by id|{id, title, artist, used, release_year, size, like_count}, 200|
+|/record/{id}|PATCH|edit record|{id, title, artist, used, release_year, size, like_count}, 200|
+|/record/{id}|DELETE|delete record|{}, 204|
+|/comments/{record_id}|GET|get comments by record id|{record_id, {comments}}, 200|
+|/comments|POST|create new comment|{record_id, user_id, body}, 201|
+|/comments/{id}|PATCH|edit comment by id|{record_id, user_id, body}, 201|
+|/comments/{id}|DELETE|delete comment by id|{}, 204|
+|/search/{name}|GET|search by records name|{id, title, artist, used, release_year, size, like_count}, {...}, {...}, 200|
+|/search/{artist}|GET|search records by artist|{id, title, artist, used, release_year, size, like_count}, {...}, {...}, 200|
+|/search/{genre}|GET|search records by genre|{id, title, artist, used, release_year, size, like_count}, {...}, {...}, 200|
 
-## Client Routes
-|Client Route|Component|
+## client routes
+|route|component|
 |:---:|:---:|
 |/|Home.jsx|
 |/signup|Signup.jsx|
 |/signin|Signin.jsx|
 |/user/{id}|User.jsx|
-|/account|Account.jsx|
-|/account/edit|AccountEdit.jsx|
-|/genres|Genres.jsx|
-|/newvinyl|NewVinyl.jsx|
-|/vinyl/{id}|Vinyl.jsx|
-|/vinyl/{id}|VinylEdit.jsx|
+|/user/edit|UserEdit.jsx|
+|/record/new|RecordNew.jsx|
+|/record/{id}|RecordDetail.jsx|
+|/record/edit/{id}|RecordEdit.jsx|
 |/search|Search.jsx|
 |/notfound|Notfound.jsx|
 
-## React Tree
-![React Tree](images/readme-images/react-tree.png)
+## react tree
+![react tree](images/readme-images/react-tree.png)
+
+## db schema
+![db schema](images/readme-images/db-schema.png)
+
+## wireframes
+### home & search
+![home & search wireframe](images/readme-images/home-search.png)
+### signup
+![signup wireframe](images/readme-images/signup.png)
+### login
+![login wireframe](images/readme-images/login.png)
+### add record
+![add record wireframe](images/readme-images/add-record.png)
+### user
+![user wireframe](images/readme-images/user.png)
