@@ -1,16 +1,12 @@
-from models import Favorite, Comment, User, Record, db
-from flask import Flask, request, make_response
-from flask_migrate import Migrate
+from models import Favorite, Comment, User, Record
+from flask import request, make_response
 from flask_restful import Api, Resource
-import os
+from config import app, db, api, Resource, migrate
+from models import *
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['DEBUG'] = True
-db.init_app(app)
-
-migrate = Migrate(app, db)
+@app.route('/')
+def hello():
+    return 'hello from flask!'
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
