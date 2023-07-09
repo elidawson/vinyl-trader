@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+flask-restful = "*"
+Flask-Migrate = "3.1.0"
+sqlalchemy-serializer = "*"
+bcrypt = "*"
 
 [dev-packages]
 
