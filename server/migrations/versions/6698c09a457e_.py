@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 617a844e5943
+Revision ID: 6698c09a457e
 Revises: 
-Create Date: 2023-07-09 19:46:17.201188
+Create Date: 2023-07-09 21:45:30.873013
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '617a844e5943'
+revision = '6698c09a457e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,10 +21,11 @@ def upgrade():
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(), nullable=False),
-    sa.Column('_password_hash', sa.String(), nullable=False),
+    sa.Column('_password', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('location', sa.String(), nullable=True),
     sa.Column('bio', sa.String(), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -33,8 +34,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('artist', sa.String(), nullable=False),
-    sa.Column('release_year', sa.Integer(), nullable=True),
-    sa.Column('condition', sa.String(), nullable=True),
+    sa.Column('description', sa.String(), nullable=True),
     sa.Column('image', sa.String(), nullable=True),
     sa.Column('like_count', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),

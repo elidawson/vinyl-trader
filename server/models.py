@@ -51,10 +51,9 @@ class Record(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     artist = db.Column(db.String, nullable=False)
-    release_year = db.Column(db.Integer)
-    condition = db.Column(db.String)
-    image = db.Column(db.String)
-    like_count = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String)
+    image = db.Column(db.String, default='https://as2.ftcdn.net/jpg/00/62/08/95/220_F_62089548_hUsAVnxJKkwmMpqgalL4zhwXjwTqP4Vx.jpg')
+    like_count = db.Column(db.Integer, nullable=False, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -70,24 +69,10 @@ class Record(db.Model, SerializerMixin):
         '-updated_at'
     )
 
-    def __init__(self, title, artist, release_year=None, condition=None):
-        self.title = title
-        self.artist = artist
-        self.release_year = release_year
-        self.condition = condition
-        self.image = 'https://as2.ftcdn.net/jpg/00/62/08/95/220_F_62089548_hUsAVnxJKkwmMpqgalL4zhwXjwTqP4Vx.jpg'
-        self.like_count = 0
-
     @validates('title', 'artist')
     def validate_string_length(self, key, input):
         if len(input) > 40:
             raise ValueError('Title and artist must be shorter than 40 characters')
-        return input
-
-    @validates('release_year')
-    def validate_release_year(self, key, input):
-        if len(str(input)) != 4:
-            raise ValueError('Release year must be in YYYY format')
         return input
 
     @validates('image')
@@ -101,10 +86,11 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
-    _password_hash= db.Column(db.String, nullable=False)
+    _password= db.Column(db.String, nullable=False)
     name = db.Column(db.String)
     location = db.Column(db.String)
     bio = db.Column(db.String)
+    image = db.Column(db.String, default='https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
@@ -121,7 +107,7 @@ class User(db.Model, SerializerMixin):
         '-updated_at',
     )
 
-    @validates('username', 'name', 'location')
+    @validates('username', 'name')
     def validate_string_length(self, key, input):
         if len(input) > 20:
             raise ValueError('must be less than 20 characters')
@@ -134,9 +120,9 @@ class User(db.Model, SerializerMixin):
         return input
 
     @property
-    def password_hash(self):
+    def password(self):
         raise AttributeError("password_hash is not readable")
 
-    @password_hash.setter
-    def password_hash(self, input):
-        self._password_hash = bcrypt.generate_password_hash(input.encode('utf-8')).decode('utf-8')
+    @password.setter
+    def password(self, input):
+        self._password = bcrypt.generate_password_hash(input.encode('utf-8')).decode('utf-8')
