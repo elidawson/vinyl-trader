@@ -102,9 +102,10 @@ class User(db.Model, SerializerMixin):
     serialize_rules = (
         '-records.user',
         '-comments.user',
-        '-password_hash',
+        '-favorites.user',
+        '-_password',
         '-created_at',
-        '-updated_at',
+        '-updated_at'
     )
 
     @validates('username', 'name')
