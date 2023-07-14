@@ -1,0 +1,10 @@
+.header-div{
+    display: flex;
+    align-items: center;
+    margin: 4em;
+}
+
+.header-text{
+    color: #001858;
+    font-size: 2rem;
+}
