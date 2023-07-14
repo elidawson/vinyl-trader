@@ -169,31 +169,31 @@ def seed():
 
     db.session.add_all(records)
 
-    comments = []
-    for i in range (1, recordLen + 1):
-        for s in range (1, userLen + 1):
-            body = fake.text(max_nb_chars=50)
-            comment = Comment(
-                body=body,
-                user_id=s,
-                record_id=i
-            )
-            comments.append(comment)
+    # comments = []
+    # for i in range (1, recordLen + 1):
+    #     for s in range (1, userLen + 1):
+    #         body = fake.text(max_nb_chars=50)
+    #         comment = Comment(
+    #             body=body,
+    #             user_id=s,
+    #             record_id=i
+    #         )
+    #         comments.append(comment)
 
-    db.session.add_all(comments)
+    # db.session.add_all(comments)
 
-    favorites = []
-    record_ids = list(range(1, recordLen + 1))
-    for i in range(1, userLen + 1):
-        user_favorites = sample(record_ids, 5)
-        for s in user_favorites:
-            favorite = Favorite(
-                user_id=i,
-                record_id=s
-            )
-            favorites.append(favorite)
+    # favorites = []
+    # record_ids = list(range(1, recordLen + 1))
+    # for i in range(1, userLen + 1):
+    #     user_favorites = sample(record_ids, 5)
+    #     for s in user_favorites:
+    #         favorite = Favorite(
+    #             user_id=i,
+    #             record_id=s
+    #         )
+    #         favorites.append(favorite)
 
-    db.session.add_all(favorites)
+    # db.session.add_all(favorites)
 
     db.session.commit()
 

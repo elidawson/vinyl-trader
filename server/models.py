@@ -34,7 +34,8 @@ class Comment(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='comments')
 
     serialize_rules = (
-        '-record.comments',
+        '-user.records',
+        '-record.comments',  
         '-created_at',
         '-updated_at'
     )
@@ -64,7 +65,7 @@ class Record(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-user.records',
-        '-comments.record'
+        '-comments.record',
         '-created_at',
         '-updated_at'
     )
@@ -100,7 +101,7 @@ class User(db.Model, SerializerMixin):
     favorite_records = association_proxy('favorites', 'record')
 
     serialize_rules = (
-        '-records.user',
+        '-records.favorites',
         '-comments.user',
         '-favorites.user',
         '-_password',
