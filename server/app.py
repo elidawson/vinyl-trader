@@ -1,10 +1,44 @@
 from models import *
-from flask import request, make_response
+from flask import request, make_response, session
 from config import app, db, api, Resource, migrate
+
+app.secret_key = 'BAD_SECRET_KEY'
 
 @app.route('/')
 def hello():
     return 'hello from flask!'
+
+############### AUTH ################
+class CheckSession( Resource ):
+    def get(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        if user:
+            return user.to_dict(only=('id', 'username', 'name', 'location'))
+        else:
+            return {'message': '401: Not Authorized'}, 401
+
+api.add_resource(CheckSession, '/check_session')
+
+class Login( Resource ):
+    def post(self):
+        user = User.query.filter(
+        User.username == request.get_json()["username"]).first()
+
+        password = request.get_json()['password']
+        if user.authenticate(password):
+            session['user_id'] = user.id
+            return user.to_dict(only=('id', 'username', 'name', 'location')), 200
+
+        return {'error': 'Invalid username or password'}, 401
+
+api.add_resource(Login, '/login')
+
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {'message': 'user logged out'}, 204
+
+api.add_resource(Logout, '/logout')
 
 ############### USERS #################
 class Users( Resource ):

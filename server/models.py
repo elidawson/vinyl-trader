@@ -1,5 +1,6 @@
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from config import db, bcrypt
 
@@ -87,7 +88,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
-    _password= db.Column(db.String, nullable=False)
+    _password_hash = db.Column(db.String, nullable=False)
     name = db.Column(db.String)
     location = db.Column(db.String)
     bio = db.Column(db.String)
@@ -109,22 +110,31 @@ class User(db.Model, SerializerMixin):
         '-updated_at'
     )
 
+    def __repr__(self):
+        return f'User {self.username}, ID {self.id}'
+
     @validates('username', 'name')
     def validate_string_length(self, key, input):
         if len(input) > 20:
             raise ValueError('must be less than 20 characters')
         return input
-    
+
     @validates('bio')
     def validate_bio_length(self, key, input):
         if len(input) > 200:
             raise ValueError('bio must be shorter than 200 characters')
         return input
 
-    @property
-    def password(self):
-        raise AttributeError("password_hash is not readable")
+    @hybrid_property
+    def password_hash(self):
+        return self._password_hash
 
-    @password.setter
-    def password(self, input):
-        self._password = bcrypt.generate_password_hash(input.encode('utf-8')).decode('utf-8')
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+            password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))

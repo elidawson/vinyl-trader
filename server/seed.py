@@ -17,7 +17,7 @@ def seed():
     users = [
         User(
             username='jrocc',
-            password='yessir',
+            password_hash='yessir',
             name='Eli',
             location='Pittsburgh',
             bio='''Record lord and king admin''',
@@ -25,7 +25,7 @@ def seed():
         ),
         User(
             username='prokie',
-            password='lilmama',
+            password_hash='lilmama',
             name='Maggie',
             location='Pittsburgh',
             bio='''Record queen and dentist''',
@@ -33,7 +33,7 @@ def seed():
         ),
         User(
             username='cryptoking',
-            password='kb',
+            password_hash='kb',
             name='Kwame',
             location='New Jersey',
             bio='''Avid anime enjoyer''',
@@ -41,7 +41,7 @@ def seed():
         ),
         User(
             username='seannymac',
-            password='drummer',
+            password_hash='drummer',
             name='Sean',
             location='Raleigh',
             bio='''Drummer and overall good dude''',
@@ -49,7 +49,7 @@ def seed():
         ),
         User(
             username='DeeDee',
-            password='bone',
+            password_hash='bone',
             name='Diamond',
             location='Elwood City',
             bio='''I'm literally always panting''',
