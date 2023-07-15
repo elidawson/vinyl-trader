@@ -13,11 +13,11 @@ class CheckSession( Resource ):
     def get(self):
         user = User.query.filter(User.id == session.get('user_id')).first()
         if user:
-            return user.to_dict(only=('id', 'username', 'name', 'location'))
-        else:
-            return {'message': '401: Not Authorized'}, 401
+            return user.to_dict(only=())
+        # else:
+        #     return make_response({'message': '401: Not Authorized'}, 401)
 
-api.add_resource(CheckSession, '/check_session')
+api.add_resource(CheckSession, '/api/check_session')
 
 class Login( Resource ):
     def post(self):
@@ -29,16 +29,16 @@ class Login( Resource ):
             session['user_id'] = user.id
             return user.to_dict(only=('id', 'username', 'name', 'location')), 200
 
-        return {'error': 'Invalid username or password'}, 401
+        return make_response({'error': 'Invalid username or password'}, 401)
 
-api.add_resource(Login, '/login')
+api.add_resource(Login, '/api/login')
 
 class Logout(Resource):
     def delete(self):
         session['user_id'] = None
-        return {'message': 'user logged out'}, 204
+        return make_response({'message': 'user logged out'}, 204)
 
-api.add_resource(Logout, '/logout')
+api.add_resource(Logout, '/api/logout')
 
 ############### USERS #################
 class Users( Resource ):
@@ -50,7 +50,7 @@ class Users( Resource ):
         except:
             return make_response({"error": "failed to fetch users"}, 409)
 
-api.add_resource(Users, '/users')
+api.add_resource(Users, '/api/users')
 
 class UsersbyId( Resource ):
 ### GET USER ID ##
@@ -86,7 +86,7 @@ class UsersbyId( Resource ):
         except:
             return make_response({"error": "user not found"}, 404)
 
-api.add_resource(UsersbyId, '/users/<int:id>')
+api.add_resource(UsersbyId, '/api/users/<int:id>')
 
 ############## RECORDS ################
 class Records( Resource ):
@@ -98,7 +98,7 @@ class Records( Resource ):
         except:
             return make_response({"error": "failed to fetch records"}, 409)
 
-api.add_resource(Records, '/records')
+api.add_resource(Records, '/api/records')
 
 class RecordsById( Resource ):
 ### GET RECORD ID ###
@@ -134,7 +134,7 @@ class RecordsById( Resource ):
         except:
             return make_response({"error": "user not found"}, 404)
 
-api.add_resource(RecordsById, '/records/<int:id>')
+api.add_resource(RecordsById, '/api/records/<int:id>')
 
 ############## COMMENTS ##############
 class Comments( Resource ):
@@ -143,7 +143,7 @@ class Comments( Resource ):
         res = make_response(comments, 200)
         return res
 
-api.add_resource(Comments, '/comments')
+api.add_resource(Comments, '/api/comments')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -21,6 +21,9 @@ class Favorite(db.Model, SerializerMixin):
         '-updated_at'
     )
 
+    def __repr__(self):
+        return f'fav user: {self.user.name}, record id: {self.record_id}'
+
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments'
 
@@ -40,6 +43,9 @@ class Comment(db.Model, SerializerMixin):
         '-created_at',
         '-updated_at'
     )
+
+    def __repr__(self):
+        return f'Comment body: {self.body}, user: {self.user}'
 
     @validates('body')
     def validate_body(self, key, input):
@@ -70,6 +76,9 @@ class Record(db.Model, SerializerMixin):
         '-created_at',
         '-updated_at'
     )
+
+    def __repr__(self):
+        return f'Record title:{self.title}, artist: {self.artist}'
 
     @validates('title', 'artist')
     def validate_string_length(self, key, input):
@@ -105,7 +114,7 @@ class User(db.Model, SerializerMixin):
         '-records.favorites',
         '-comments.user',
         '-favorites.user',
-        '-_password',
+        '-_password_hash',
         '-created_at',
         '-updated_at'
     )
