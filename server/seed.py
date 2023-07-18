@@ -164,6 +164,41 @@ def seed():
             description='''little did we know''',
             image='https://i.discogs.com/2iKKnc0QOYw2-boATOpXWZnrTXMLmlHJydIBC4ovrQI/rs:fit/g:sm/q:90/h:544/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MzQ0/MjUtMTY2MjUwNTIw/MS0zMTIxLmpwZWc.jpeg',
             user_id=5
+        ),
+        Record(
+            title='Jesus is Born',
+            artist='Sunday Service Choir',
+            description='''Jesus Is Born is the debut studio album by American gospel group Sunday Service Choir, led by American rapper Kanye West. It was released on December 25, 2019, through INC. The album was released to coincide with Christmas and follows the release of West's Christian-themed ninth studio album Jesus Is King, which was released two months prior in October 2019.[1] Though the album is credited to the Sunday Service Choir, multiple publications consider Jesus Is Born to be part of West's album discography.''',
+            image='https://i.discogs.com/ceBeb-ySWVDBmgY7oYMqaPJ5BSTwUh-5-ql5fq5JRTY/rs:fit/g:sm/q:90/h:320/w:320/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwMjg2/MTEyLTE2MzIwMjUy/MzgtMzkxMC5qcGVn.jpeg',
+            user_id=1
+        ),
+        Record(
+            title='Head Hunters',
+            artist='Herbie Hancock',
+            description='''Groundbreaking jazz-funk album - one of the best-selling jazz recordings and the first to go platinum.''',
+            image='https://i.discogs.com/PzhEnDeEy-u3foEvF-q1mPZDeTGt__d6k4j9XUZ7q_c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMzgx/LTE0MzMyNTkxNDMt/ODUyMi5qcGVn.jpeg',
+            user_id=2
+        ),
+        Record(
+            title='Halcyon Digest',
+            artist='Deerhunter',
+            description='''bizarre but great''',
+            image='https://i.discogs.com/UAoS_yjhAQO31u2XHuMLmv_YlYENRhcYxszT0O3xs6U/rs:fit/g:sm/q:90/h:539/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0Njky/MTMtMTQ1NDE1Mzc4/My01OTUyLnBuZw.jpeg',
+            user_id=3
+        ),
+        Record(
+            title='If Orange Was A Place',
+            artist='Tems',
+            description='''incredible voice''',
+            image='https://i.discogs.com/pXA8__RCKPTcbBYN7p1gLNfB8gT7FBzEeBn03W62yHA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NTQw/NDI2LTE2Nzk3NjA3/OTAtMzE2MC5qcGVn.jpeg',
+            user_id=4
+        ),
+        Record(
+            title='Currents',
+            artist='Tame Impala',
+            description='''album means so much to me''',
+            image='https://i.discogs.com/EB6i3MltuGKX7DuCF4TDeqxK-ReTBPAf2cInVw5kX0c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyNjg5/NDMtMTQzNzYzNTcy/Ni00NzU5LmpwZWc.jpeg',
+            user_id=5
         )
     ]
 
@@ -245,6 +280,31 @@ def seed():
             user_id=5,
             record_id=15
         ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=16
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=17
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=18
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=19
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=20
+        )
     ]
 
     db.session.add_all(comments)
@@ -310,6 +370,26 @@ def seed():
             user_id=5,
             record_id=15
         ),
+        Favorite(
+            user_id=1,
+            record_id=16
+        ),
+        Favorite(
+            user_id=2,
+            record_id=17
+        ),
+        Favorite(
+            user_id=3,
+            record_id=18
+        ),
+        Favorite(
+            user_id=4,
+            record_id=19
+        ),
+        Favorite(
+            user_id=5,
+            record_id=20
+        )
     ]
 
     db.session.add_all(favorites)
