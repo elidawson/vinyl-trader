@@ -1,12 +1,11 @@
+import { UserContext } from "./App"
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useContext } from 'react';
-import { UserContext } from "./App"
 
-export default function RecordForm({ user }) {
-  // const user = useContext(UserContext);
-  // const userId = user.id
+export default function RecordForm() {
+  const user = useContext(UserContext);
   const navigate = useNavigate();
 
   const formSchema = yup.object({

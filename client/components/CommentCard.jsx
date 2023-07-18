@@ -1,12 +1,11 @@
 import '../stylesheets/commentcard.css'
 
-function CommentCard({ comment }) {
+export default function CommentCard({ comment }) {
   return (
     <div className='comment-card'>
         <p>{comment.body}</p>
         <p>{comment.record.title}</p>
+        <p>{comment.user.username}</p>
     </div>
   )
 }
-
-export default CommentCard

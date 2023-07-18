@@ -171,6 +171,20 @@ class Comments( Resource ):
     def get( self ):
         comments = [ comment.to_dict() for comment in Comment.query.all() ]
         return make_response(comments, 200)
+    
+    def post( self ):
+        rq = request.get_json()
+        try:
+            comment = Comment(
+                body=rq['body'],
+                record_id=rq['record_id'],
+                user_id=rq['user_id']
+            )
+            db.session.add(comment)
+            db.session.commit()
+            return make_response(comment.to_dict(), 201)
+        except:
+            return make_response({"error": ["validation errors"]}, 400)
 
 api.add_resource(Comments, '/api/comments')
 
@@ -192,7 +206,20 @@ class Favorites( Resource ):
         except:
             return make_response({"error": ["validation errors"]}, 400)
 
+
 api.add_resource(Favorites, '/api/favorites')
+
+class FavoritesById( Resource ):
+    def delete( self, id ):
+        favorite = Favorite.query.filter_by(id=id).first()
+        try:
+            db.session.delete(favorite)
+            db.session.commit()
+            return make_response({}, 204)
+        except:
+            return make_response({"error": "user not found"}, 404)
+
+api.add_resource(FavoritesById, '/api/favorites/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

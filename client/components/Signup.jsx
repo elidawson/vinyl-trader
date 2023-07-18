@@ -44,7 +44,7 @@ function Signup() {
                 <input value={formik.values.password} onChange={formik.handleChange} type='password' name='password' /><br/>
                 <input type='submit' value='signup' className='button' />
             </form>
-            <p>already have and account?</p>
+            <p>already have an account?</p>
             <Link to='/login' className='button'>login</Link>
         </>
     )

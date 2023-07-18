@@ -304,6 +304,107 @@ def seed():
             body = fake.text(max_nb_chars=50),
             user_id=5,
             record_id=20
+        ),
+        # break
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=1
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=2
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=3
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=4
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=5
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=6
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=7
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=8
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=9
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=10
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=11
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=12
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=13
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=14
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=15
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=16
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=17
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=18
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=19
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=20
         )
     ]
 

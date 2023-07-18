@@ -100,7 +100,7 @@ class Record(db.Model, SerializerMixin):
         '-user.records',
         '-user.comments',
         '-user.favorites',
-        '-comments.record',
+        '-comments.record.comments',
         '-record.comments',
         '-created_at',
         '-updated_at'
