@@ -1,10 +1,25 @@
 .header-div{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    margin: 4em;
+    margin: 3em;
+    color: #001858;
+    background-color: #f3d2c1;
+    border-radius: 1vw;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-.header-text{
-    color: #001858;
+.nav{
+    padding: 20px;
     font-size: 2rem;
+}
+
+.nav-link{
+    margin: 20px;
+}
+
+.page-title{
+    font-size: 3rem;
 }

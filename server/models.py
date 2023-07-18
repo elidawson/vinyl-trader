@@ -1,8 +1,10 @@
 from sqlalchemy.orm import validates
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from config import db, bcrypt
+
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
@@ -14,15 +16,36 @@ class Favorite(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     user = db.relationship('User', back_populates='favorites')
+    record = db.relationship('Record', back_populates='favorites')
+    
+    __table_args__ = (db.UniqueConstraint('user_id', 'record_id'),)
 
     serialize_rules = (
         '-user.favorites',
+        '-user.records',
+        '-user.comments',
+        '-record.favorites',
+        '-record.comments',
         '-created_at',
         '-updated_at'
     )
 
     def __repr__(self):
         return f'fav user: {self.user.name}, record id: {self.record_id}'
+
+    @staticmethod
+    def create_favorite(user_id, record_id):
+        try:
+            favorite = Favorite(
+                user_id=user_id,
+                record_id=record_id
+            )
+            db.session.add(favorite)
+            db.session.commit()
+            return favorite
+        except IntegrityError:
+            db.session.rollback()
+            return None
 
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments'
@@ -38,8 +61,11 @@ class Comment(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='comments')
 
     serialize_rules = (
+        '-record.comments',
+        '-record.user',
+        '-user.comments',
         '-user.records',
-        '-record.comments',  
+        '-user.favorites',
         '-created_at',
         '-updated_at'
     )
@@ -68,11 +94,14 @@ class Record(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='records')
     comments = db.relationship('Comment', back_populates='record')
-    favorited_by = association_proxy('favorites', 'user')
+    favorites = db.relationship('Favorite', back_populates='record')
 
     serialize_rules = (
         '-user.records',
+        '-user.comments',
+        '-user.favorites',
         '-comments.record',
+        '-record.comments',
         '-created_at',
         '-updated_at'
     )
@@ -108,10 +137,10 @@ class User(db.Model, SerializerMixin):
     records = db.relationship('Record', back_populates='user', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
     favorites = db.relationship('Favorite', back_populates='user', cascade='all, delete-orphan')
-    favorite_records = association_proxy('favorites', 'record')
 
     serialize_rules = (
-        '-records.favorites',
+        # '-records.favorites',
+        # '-records.comments',
         '-comments.user',
         '-favorites.user',
         '-_password_hash',

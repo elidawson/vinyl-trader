@@ -1,0 +1,38 @@
+.record-card{
+    background-color: #f3d2c1;
+    display: flex;
+    width: 75vw;
+    border: solid black;
+    border-radius: 10px;
+    margin: 25px;
+}
+.record-card:hover{
+    transform: translateY(-10px);
+}
+
+.record-title{
+    align-items: center;
+}
+
+.record-image{
+    height: 100%;
+    margin-right: auto;
+    width: 20%;
+    border-radius: 5px;
+}
+
+.favs{
+    display: flex;
+}
+
+.favs>button{
+    margin: 10px;
+}
+
+.container{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    /* padding: 10px; */
+}

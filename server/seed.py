@@ -61,7 +61,7 @@ def seed():
 
     records = [
         Record(
-            title='Ambient 1:Music For Airports',
+            title='Ambient 1 : Music For Airports',
             artist='Brian Eno',
             description='''Eno's landmark Ambient album from 1978 has been Half Speed Mastered by Miles Showell at Abbey Road Studios, London and is now presented in a gatefold sleeve on 2 180 gram discs which have been cut at 45rpm for a superior listening experience. Complete with an Obi and Abbey Road Certificate of Authenticity and contains a Download Voucher.''',
             image='https://i.discogs.com/Ajqk0nO1MjaxCMUzY-D9EzrTBRRbaKJE8WFKSvkaVEU/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTc3/Ni0xNjE2NDg1MDk2/LTE5NDIuanBlZw.jpeg',
@@ -169,31 +169,150 @@ def seed():
 
     db.session.add_all(records)
 
-    # comments = []
-    # for i in range (1, recordLen + 1):
-    #     for s in range (1, userLen + 1):
-    #         body = fake.text(max_nb_chars=50)
-    #         comment = Comment(
-    #             body=body,
-    #             user_id=s,
-    #             record_id=i
-    #         )
-    #         comments.append(comment)
+    comments = [
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=1
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=2
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=1,
+            record_id=3
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=4
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=5
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=2,
+            record_id=6
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=7
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=8
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=3,
+            record_id=9
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=10
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=11
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=4,
+            record_id=12
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=13
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=14
+        ),
+        Comment(
+            body = fake.text(max_nb_chars=50),
+            user_id=5,
+            record_id=15
+        ),
+    ]
 
-    # db.session.add_all(comments)
+    db.session.add_all(comments)
 
-    # favorites = []
-    # record_ids = list(range(1, recordLen + 1))
-    # for i in range(1, userLen + 1):
-    #     user_favorites = sample(record_ids, 5)
-    #     for s in user_favorites:
-    #         favorite = Favorite(
-    #             user_id=i,
-    #             record_id=s
-    #         )
-    #         favorites.append(favorite)
+    favorites = [
+        Favorite(
+            user_id=1,
+            record_id=1
+        ),
+        Favorite(
+            user_id=1,
+            record_id=2
+        ),
+        Favorite(
+            user_id=1,
+            record_id=3
+        ),
+        Favorite(
+            user_id=2,
+            record_id=4
+        ),
+        Favorite(
+            user_id=2,
+            record_id=5
+        ),
+        Favorite(
+            user_id=2,
+            record_id=6
+        ),
+        Favorite(
+            user_id=3,
+            record_id=7
+        ),
+        Favorite(
+            user_id=3,
+            record_id=8
+        ),
+        Favorite(
+            user_id=3,
+            record_id=9
+        ),
+        Favorite(
+            user_id=4,
+            record_id=10
+        ),
+        Favorite(
+            user_id=4,
+            record_id=11
+        ),
+        Favorite(
+            user_id=4,
+            record_id=12
+        ),
+        Favorite(
+            user_id=5,
+            record_id=13
+        ),
+        Favorite(
+            user_id=5,
+            record_id=14
+        ),
+        Favorite(
+            user_id=5,
+            record_id=15
+        ),
+    ]
 
-    # db.session.add_all(favorites)
+    db.session.add_all(favorites)
 
     db.session.commit()
 

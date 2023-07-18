@@ -33,12 +33,26 @@ class Login( Resource ):
 
 api.add_resource(Login, '/api/login')
 
-class Logout(Resource):
+class Logout( Resource ):
     def delete(self):
         session['user_id'] = None
         return make_response({'message': 'user logged out'}, 204)
 
 api.add_resource(Logout, '/api/logout')
+
+class Signup( Resource ):
+    def post(self):
+        rq = request.get_json()
+        user = User(
+            username = rq.get('username'),
+            _password_hash = rq.get('password')
+        )
+        db.session.add(user)
+        db.session.commit()
+        session['user_id'] = user.id
+        return make_response(user.to_dict(only=('id', 'username', 'name', 'location')), 200)
+
+api.add_resource(Signup, '/api/signup')
 
 ############### USERS #################
 class Users( Resource ):
@@ -98,6 +112,22 @@ class Records( Resource ):
         except:
             return make_response({"error": "failed to fetch records"}, 409)
 
+    def post ( self ):
+        rq = request.get_json()
+        try:
+            record = Record(
+                title=rq['title'],
+                artist=rq['artist'], 
+                description=rq['description'], 
+                image=rq['image'],
+                user_id=rq['user_id']
+            )
+            db.session.add(record)
+            db.session.commit()
+            return make_response(record, 201)
+        except:
+            return make_response({"error": ["validation errors"]}, 400)
+
 api.add_resource(Records, '/api/records')
 
 class RecordsById( Resource ):
@@ -140,10 +170,29 @@ api.add_resource(RecordsById, '/api/records/<int:id>')
 class Comments( Resource ):
     def get( self ):
         comments = [ comment.to_dict() for comment in Comment.query.all() ]
-        res = make_response(comments, 200)
-        return res
+        return make_response(comments, 200)
 
 api.add_resource(Comments, '/api/comments')
+
+class Favorites( Resource ):
+    def get( self ):
+        favorites = [ favorite.to_dict() for favorite in Favorite.query.all() ]
+        return make_response(favorites, 200)
+
+    def post( self ):
+        rq = request.get_json()
+        try:
+            favorite = Favorite(
+                user_id=rq['user_id'],
+                record_id=rq['record_id']
+            )
+            db.session.add(favorite)
+            db.session.commit()
+            return make_response(favorite.to_dict(), 201)
+        except:
+            return make_response({"error": ["validation errors"]}, 400)
+
+api.add_resource(Favorites, '/api/favorites')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
