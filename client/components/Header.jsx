@@ -28,7 +28,7 @@ export default function Header({ setUser }) {
       <div className='header-div'>
         <h1 className='page-title'>vinyl trader</h1>
         <div className='nav'>
-          <Link to='/' className='nav-link'>feed</Link>
+          <Link to='/' className='header-text'>feed</Link>
           {user ? (
             <Link to='/records/new' className='nav-link'>post record</Link>
           ) : (

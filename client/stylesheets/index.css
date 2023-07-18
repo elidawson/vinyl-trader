@@ -5,10 +5,15 @@
     text-decoration: none;
 }
 
+nav-link{
+    text-decoration: none;
+}
+
 body{
-    background-color: #fef6e4;
+    background-color: #FFFFFF;
     text-align: center;
     align-items: center;
+    color: #1f1235;
 }
 
 .record-container{
@@ -23,4 +28,10 @@ body{
 
 .record-form>input{
     width: 25vw;
+}
+
+.search-bar{
+    border-radius: 10px;
+    width: 25%;
+    height: 5vh;
 }
