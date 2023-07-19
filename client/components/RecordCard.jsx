@@ -22,7 +22,6 @@ export default function RecordCard({ record, setFavorites }) {
       }
     }
   }, [user]);
-  
 
   const addLike = () => {
     if (!userLiked) {
@@ -66,43 +65,43 @@ export default function RecordCard({ record, setFavorites }) {
           setLikes((prevLikes) => prevLikes.filter((like) => like.id !== userLike.id));
           setUserLiked(false);
         }
-        
       })
       .catch((error) => console.error('Delete Error:', error));
   };
 
   return (
     <div className='record-card'>
-      <img className='record-image' src={record.image} alt='record-image' />
       <div className='container'>
-        <div className='record-title'>
-          <p>posted by: {record.user.username}</p>
-          <h2>{record.title}</h2>
-          <h2>{record.artist}</h2>
-          <p>{record.description}</p>
+        <img className='record-image' src={record.image} alt='record-image' />
+        <div className='info-container'>
+          <div className='record-title'>
+            <p>posted by: {record.user.username}</p>
+            <h2>{record.title}</h2>
+            <h2>{record.artist}</h2>
+            <p>{record.description}</p>
+          </div>
+          <div className='favs'>
+            <button className='button' onClick={toggleShow}>💬 {comments.length}</button>
+            { userLiked ? (
+              <>
+                <button className='button' onClick={deleteLike}>✔️ favorited!</button>
+              </>
+            ) : (
+              <button className='button' onClick={addLike}>❤️ {likes.length}</button>
+            )}
+          </div>
         </div>
-        <div className='favs'>
-          <button className='button' onClick={toggleShow}>💬</button>
-          <p>{comments.length}</p><br/>
-          { userLiked ? (
-            <>
-              <button className='button' onClick={deleteLike}>✔️</button>
-              <p>favorited!</p>
-            </>
-          ) : (
-            <button className='button' onClick={addLike}>❤️</button>
-          )}
-          <p>{likes.length}</p>
-        </div>
-        { show ? (
-          <div>
-            {user && <CommentForm record={record} setComments={setComments} />}
+      </div>
+      { show ? (
+        <>
+          {user && <CommentForm record={record} setComments={setComments} />}
+          <div className='comments'>
             {comments.map((comment) => (
               <CommentCard key={comment.id} comment={comment} />
               ))}
           </div>
-        ) : null}
-      </div>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -148,8 +147,9 @@ export function CommentForm({ record, setComments }) {
         onChange={formik.handleChange}
         type='text' name='body'
         placeholder='add a comment...'
-      />
-      <button type='submit'>post</button>
+        className='comment-input'
+      /><br/>
+      <button className='button' type='submit'>post comment</button>
     </form>
   )
 }

@@ -1,13 +1,13 @@
-import { Outlet, Link } from 'react-router-dom'
-import { useContext } from 'react'
-import { UserContext } from './App'
 import '../stylesheets/header.css'
+import { Outlet, Link } from 'react-router-dom'
 import { useNavigate } from 'react-router'
+import { UserContext } from './App'
+import { useContext } from 'react'
 
 export default function Header({ setUser }) {
   const user = useContext(UserContext)
   const navigate = useNavigate()
-  
+
   const handleLogout = () => {
     fetch('/api/logout', {
       method: 'DELETE',
@@ -19,7 +19,6 @@ export default function Header({ setUser }) {
       console.log('log out successful'),
       setUser(null),
       navigate('/')
-
     )
   }
 
@@ -35,16 +34,15 @@ export default function Header({ setUser }) {
             null
           )}
         </div>
-        
           {user ? (
-            <>
+            <div className='user-menu'>
               <img src={user.image} className='header-user-img'/>
-              <div className='user-header'>
-              <span>hello, {user.name}</span><br/>
-              <Link to='/user'>my profile</Link><br/>
-              <button className='button' onClick={handleLogout}>logout</button>
+              <div>
+                <span>hello, {user.name}</span><br/>
+                <button className='button' onClick={() => navigate('/user')}>my profile</button>
+                <button className='button' onClick={handleLogout}>logout</button>
               </div>
-            </>
+            </div>
           ) : (
             <Link to='/login' className='button'>login/signup</Link>
           )}
