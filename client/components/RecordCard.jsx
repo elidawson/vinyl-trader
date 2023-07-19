@@ -82,12 +82,18 @@ export default function RecordCard({ record, setFavorites }) {
           </div>
           <div className='favs'>
             <button className='button' onClick={toggleShow}>💬 {comments.length}</button>
-            { userLiked ? (
+            {userLiked ? (
               <>
-                <button className='button' onClick={deleteLike}>✔️ favorited!</button>
+                <button className='button' onClick={deleteLike}>
+                  ✔️ favorited!
+                </button>
               </>
+            ) : user ? (
+              <button className='button' onClick={addLike}>
+                ❤️ {likes.length}
+              </button>
             ) : (
-              <button className='button' onClick={addLike}>❤️ {likes.length}</button>
+              <p>❤️ {likes.length}</p>
             )}
           </div>
         </div>

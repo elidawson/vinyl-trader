@@ -19,7 +19,7 @@ export default function CommentCard({ comment }) {
           <p>artist: {comment.record.artist}</p>
         </>
       )}
-      {comment.user_id === user.id && <button className='button'>Delete</button>}
+      {user && comment.user_id === user.id && <button className='button'>Delete</button>}
     </div>
   );
 }

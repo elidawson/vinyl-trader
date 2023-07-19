@@ -34,7 +34,7 @@ export default function Home() {
       .catch((error) => {
         alert(error.message);
       });
-  }, [user]);
+  }, []);
 
   const filteredRecords = getFilteredRecords(query, records);
 

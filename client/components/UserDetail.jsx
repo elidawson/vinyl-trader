@@ -24,7 +24,7 @@ export default function UserDetail() {
                 setComments(data.comments);
             });
         }
-    }, [user]);
+    }, [user, favorites]);
 
     if (!user) {
         return null;

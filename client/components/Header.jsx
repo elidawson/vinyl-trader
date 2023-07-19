@@ -4,32 +4,26 @@ import { useNavigate } from 'react-router'
 import { UserContext } from './App'
 import { useContext } from 'react'
 
-export default function Header({ setUser }) {
+export default function Header({ setUser, handleLogout }) {
   const user = useContext(UserContext)
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    fetch('/api/logout', {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-    .then(
-      console.log('log out successful'),
-      setUser(null),
-      navigate('/')
-    )
-  }
+  const handleLogoutClick = () => {
+    handleLogout(); // Call the handleLogout function passed from the parent component
+    navigate('/');
+  };
 
   return (
     <>
       <div className='header-div'>
         <h1 className='page-title'>vinyl trader</h1>
         <div className='nav'>
-          <Link to='/' className='header-text'>feed</Link>
+          
           {user ? (
-            <Link to='/records/new' className='nav-link'>post record</Link>
+            <>
+              <Link to='/' className='header-text'>feed</Link>
+              <Link to='/records/new' className='nav-link'>post record</Link>
+            </>
           ) : (
             null
           )}
@@ -40,7 +34,7 @@ export default function Header({ setUser }) {
               <div>
                 <span>hello, {user.name}</span><br/>
                 <button className='button' onClick={() => navigate('/user')}>my profile</button>
-                <button className='button' onClick={handleLogout}>logout</button>
+                <button className='button' onClick={handleLogoutClick}>logout</button>
               </div>
             </div>
           ) : (

@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './Header'
 import React from 'react'
 import Home from './Home'
@@ -30,10 +30,27 @@ export default function App() {
       });
   }, []);
 
+  const location = useLocation();
+
+  const handleLogout = () => {
+    fetch('/api/logout', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    .then(() => {
+      setUser(null)
+      if (location.pathname === '/') {
+        window.location.reload();
+      }
+    })
+  }
+
   return (
     <UserContext.Provider value={user}>
       <Routes>
-        <Route path='/' element={<Header setUser={setUser} />}>
+        <Route path='/' element={<Header setUser={setUser} handleLogout={handleLogout} />}>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login user={user} setUser={setUser}/>} />
           <Route path='/signup' element={<Signup />} />
