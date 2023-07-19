@@ -22,10 +22,6 @@ class Favorite(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-user.favorites',
-        '-user.records',
-        '-user.comments',
-        '-record.favorites',
-        '-record.comments',
         '-created_at',
         '-updated_at'
     )
@@ -62,10 +58,10 @@ class Comment(db.Model, SerializerMixin):
 
     serialize_rules = (
         '-record.comments',
-        '-record.user',
+        '-user.comments',
+        '-user.favorites',
         '-user.comments',
         '-user.records',
-        '-user.favorites',
         '-created_at',
         '-updated_at'
     )
@@ -100,8 +96,8 @@ class Record(db.Model, SerializerMixin):
         '-user.records',
         '-user.comments',
         '-user.favorites',
-        '-comments.record.comments',
-        '-record.comments',
+        '-favorites.record',
+        '-favorites.user',
         '-created_at',
         '-updated_at'
     )
@@ -139,9 +135,9 @@ class User(db.Model, SerializerMixin):
     favorites = db.relationship('Favorite', back_populates='user', cascade='all, delete-orphan')
 
     serialize_rules = (
-        # '-records.favorites',
+        # '-records.user',
         # '-records.comments',
-        '-comments.user',
+        # '-records.favorites',
         '-favorites.user',
         '-_password_hash',
         '-created_at',

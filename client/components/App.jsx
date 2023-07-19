@@ -19,8 +19,6 @@ export default function App() {
       .then((res) => {
         if (res.ok) {
           return res.json();
-        } else {
-          throw new Error("no user logged in");
         }
       })
       .then((user) => {
@@ -42,8 +40,8 @@ export default function App() {
           <Route path='/records/new' element={<RecordForm user={user} />} />
           <Route path='/user' element={<UserDetail />} />
           <Route path='*' element={<Notfound />} />
-      </Route>
-    </Routes>
+        </Route>
+      </Routes>
     </UserContext.Provider>
   )
 }

@@ -5,7 +5,7 @@ import { useState, useContext, useEffect } from 'react'
 import { UserContext } from './App'
 import CommentCard from './CommentCard';
 
-export default function RecordCard({ record }) {
+export default function RecordCard({ record, setFavorites }) {
   const user = useContext(UserContext);
   const [ show, setShow ] = useState(false);
   const [ comments, setComments ] = useState([]);
@@ -16,10 +16,13 @@ export default function RecordCard({ record }) {
   useEffect(() => {
     setComments(record.comments);
     setLikes(record.favorites);
-    if (record.favorites.some((favorite) => favorite.user_id === user.id)) {
-      setUserLiked(true);
+    if (user) {
+      if (record.favorites.some((favorite) => favorite.user_id === user.id)) {
+        setUserLiked(true);
+      }
     }
-  }, []);
+  }, [user]);
+  
 
   const addLike = () => {
     if (!userLiked) {
@@ -33,8 +36,16 @@ export default function RecordCard({ record }) {
         })
         .then((res) => res.json())
         .then((data) => {
-          setLikes((prev) => [...prev, data])
-        })
+          try{
+            setFavorites((prev) => [...prev, data])
+          }
+          catch(err){
+            null
+          }
+          finally {
+            setLikes((prev) => [...prev, data])
+          }}
+        )
     }
   };
 
@@ -44,8 +55,18 @@ export default function RecordCard({ record }) {
       method: 'DELETE',
     })
       .then(() => {
-        setLikes((prevLikes) => prevLikes.filter((like) => like.id !== userLike.id));
-        setUserLiked(false);
+        try{
+          setFavorites((prevFavorites) => prevFavorites.filter((favorite) => favorite.id !== userLike.id));
+          setUserLiked(false);
+        }
+        catch(err){
+          null
+        }
+        finally{
+          setLikes((prevLikes) => prevLikes.filter((like) => like.id !== userLike.id));
+          setUserLiked(false);
+        }
+        
       })
       .catch((error) => console.error('Delete Error:', error));
   };
@@ -65,8 +86,8 @@ export default function RecordCard({ record }) {
           <p>{comments.length}</p><br/>
           { userLiked ? (
             <>
-              <p>favorited!</p>
               <button className='button' onClick={deleteLike}>✔️</button>
+              <p>favorited!</p>
             </>
           ) : (
             <button className='button' onClick={addLike}>❤️</button>
@@ -75,7 +96,7 @@ export default function RecordCard({ record }) {
         </div>
         { show ? (
           <div>
-            <CommentForm record={record} setComments={setComments} />
+            {user && <CommentForm record={record} setComments={setComments} />}
             {comments.map((comment) => (
               <CommentCard key={comment.id} comment={comment} />
               ))}

@@ -22,15 +22,20 @@ function Login({ setUser }) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            body: JSON.stringify(values),
+                body: JSON.stringify(values),
             })
-            .then((res) => res.json())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('incorrect username or password');
+                }
+                return response.json();
+            })
             .then((data) => {
                 actions.resetForm();
                 setUser(data);
                 navigate('/');
             })
-            .catch(error => alert(error))
+            .catch(error => alert(error.message));
         }
     });
     return (

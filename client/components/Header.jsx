@@ -35,17 +35,19 @@ export default function Header({ setUser }) {
             null
           )}
         </div>
-        <div className='user-header'>
+        
           {user ? (
             <>
+              <img src={user.image} className='header-user-img'/>
+              <div className='user-header'>
               <span>hello, {user.name}</span><br/>
-              <Link to='/user'>edit profile</Link><br/>
+              <Link to='/user'>my profile</Link><br/>
               <button className='button' onClick={handleLogout}>logout</button>
+              </div>
             </>
           ) : (
             <Link to='/login' className='button'>login/signup</Link>
           )}
-        </div>
       </div>
       <Outlet />
     </>

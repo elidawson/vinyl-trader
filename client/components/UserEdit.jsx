@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 export default function UserEdit({ toggleEdit }) {
-    const [ context, setContext ] = useContext(UserContext);
+    const user = useContext(UserContext);
 
     const formSchema = yup.object({
         username: yup.string(),
@@ -16,11 +16,11 @@ export default function UserEdit({ toggleEdit }) {
 
     const formik = useFormik({
         initialValues: {
-            username: '',
-            name: '',
-            location: '',
-            image: '',
-            bio: ''
+            username: user.username,
+            name: user.name,
+            location: user.location,
+            image: user.image,
+            bio: user.bio
         },
         validationSchema: formSchema,
         onSubmit: (values, actions) => {
@@ -41,7 +41,6 @@ export default function UserEdit({ toggleEdit }) {
             .then((res) => res.json())
             .then(() => {
                 toggleEdit();
-                setUser(data);
             })
             .catch(error => alert(error));
         }        
