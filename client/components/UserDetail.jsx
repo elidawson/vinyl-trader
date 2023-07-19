@@ -7,6 +7,7 @@ import UserEdit from './UserEdit';
 
 export default function UserDetail() {
     const user = useContext(UserContext);
+    const [ currUser, setCurrUser ] = useState(user)
     const [ favorites, setFavorites ] = useState([]);
     const [ records, setRecords ] = useState([]);
     const [ comments, setComments ] = useState([]);
@@ -19,6 +20,7 @@ export default function UserDetail() {
             fetch(`/api/users/${user.id}`)
             .then(res => res.json())
             .then((data) => {
+                setCurrUser(data);
                 setFavorites(data.favorites);
                 setRecords(data.records);
                 setComments(data.comments);
@@ -26,7 +28,17 @@ export default function UserDetail() {
         }
     }, [user, favorites]);
 
-    if (!user) {
+    const handleCommentDelete = (commentId) => {
+        fetch(`/api/comments/${commentId}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+        })
+        .catch((error) => console.error('Delete Error:', error));
+    };
+
+    if (!currUser) {
         return null;
     }
 
@@ -36,15 +48,15 @@ export default function UserDetail() {
             <div className='user-detail'>
                 <img className='user-image' src={user.image} alt='user-image'></img>
                 <div>
-                    <h2>{user.name}</h2>
-                    <p>username:<br/>{user.username}</p>
-                    <p>location:<br/>{user.location}</p>
-                    <p>bio:<br/>{user.bio}</p>
+                    <h2>{currUser.name}</h2>
+                    <p>username:<br/>{currUser.username}</p>
+                    <p>location:<br/>{currUser.location}</p>
+                    <p>bio:<br/>{currUser.bio}</p>
                     <button className='button' onClick={toggleEdit}>edit profile</button>
                 </div>
             </div>
         ) : (
-            <UserEdit toggleEdit={toggleEdit} />
+            <UserEdit toggleEdit={toggleEdit} setCurrUser={setCurrUser} />
         )}
         <p>show:</p>
         <select className='view-select' onChange={(e) => setShow(e.target.value)}>
@@ -89,6 +101,7 @@ export default function UserDetail() {
                         <CommentCard
                             key={comment.id}
                             comment={comment}
+                            handleCommentDelete={handleCommentDelete}
                         />
                     )
                 })}

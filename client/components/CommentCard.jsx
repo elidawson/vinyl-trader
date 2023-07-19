@@ -3,7 +3,7 @@ import '../stylesheets/commentcard.css';
 import { UserContext } from './App';
 import { useLocation } from 'react-router';
 
-export default function CommentCard({ comment }) {
+export default function CommentCard({ comment, handleCommentDelete }) {
   const user = useContext(UserContext);
   const location = useLocation();
 
@@ -19,7 +19,12 @@ export default function CommentCard({ comment }) {
           <p>artist: {comment.record.artist}</p>
         </>
       )}
-      {user && comment.user_id === user.id && <button className='button'>Delete</button>}
+      {user && (
+        <>
+          {comment.user_id === user.id && <button className='button'>edit comment</button>}
+          {comment.user_id === user.id && <button className='button' onClick={() => handleCommentDelete(comment.id)}>delete comment</button>}
+        </>
+      )}
     </div>
   );
 }

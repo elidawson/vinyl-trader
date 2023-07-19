@@ -9,30 +9,27 @@ export default function Header({ setUser, handleLogout }) {
   const navigate = useNavigate()
 
   const handleLogoutClick = () => {
-    handleLogout(); // Call the handleLogout function passed from the parent component
+    handleLogout();
     navigate('/');
   };
 
   return (
     <>
       <div className='header-div'>
-        <h1 className='page-title'>vinyl trader</h1>
+        <h1 className='page-title'>vinyl trader🔊</h1>
         <div className='nav'>
-          
+        <Link to='/' className='header-text' onClick={() => window.scrollTo(0,0)}>feed</Link>
           {user ? (
-            <>
-              <Link to='/' className='header-text'>feed</Link>
               <Link to='/records/new' className='nav-link'>post record</Link>
-            </>
           ) : (
             null
           )}
         </div>
           {user ? (
             <div className='user-menu'>
-              <img src={user.image} className='header-user-img'/>
+              <img src={user.image} className='header-user-img'/><br/>
               <div>
-                <span>hello, {user.name}</span><br/>
+                <span className='glow'>hello, {user.name}</span><br/>
                 <button className='button' onClick={() => navigate('/user')}>my profile</button>
                 <button className='button' onClick={handleLogoutClick}>logout</button>
               </div>

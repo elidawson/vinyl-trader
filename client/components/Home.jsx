@@ -26,15 +26,17 @@ export default function Home() {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0);
     fetch('/api/records')
       .then((res) => res.json())
       .then((data) => {
+        data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         setRecords(data);
       })
       .catch((error) => {
         alert(error.message);
       });
-  }, []);
+  }, [query]);
 
   const filteredRecords = getFilteredRecords(query, records);
 

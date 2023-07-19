@@ -186,6 +186,18 @@ class Comments( Resource ):
 
 api.add_resource(Comments, '/api/comments')
 
+class CommentsById( Resource ):
+    def delete( self, id ):
+        comment = Comment.query.filter_by(id=id).first()
+        try:
+            db.session.delete(comment)
+            db.session.commit()
+            return make_response({}, 204)
+        except:
+            return make_response({"error": "user not found"}, 404)
+
+api.add_resource(CommentsById, '/api/comments/<int:id>')
+
 class Favorites( Resource ):
     def get( self ):
         favorites = [ favorite.to_dict() for favorite in Favorite.query.all() ]

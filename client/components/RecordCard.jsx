@@ -23,6 +23,16 @@ export default function RecordCard({ record, setFavorites }) {
     }
   }, [user]);
 
+  const handleCommentDelete = (commentId) => {
+    fetch(`/api/comments/${commentId}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+      })
+      .catch((error) => console.error('Delete Error:', error));
+  };
+
   const addLike = () => {
     if (!userLiked) {
       setUserLiked(true);
@@ -35,16 +45,9 @@ export default function RecordCard({ record, setFavorites }) {
         })
         .then((res) => res.json())
         .then((data) => {
-          try{
             setFavorites((prev) => [...prev, data])
-          }
-          catch(err){
-            null
-          }
-          finally {
             setLikes((prev) => [...prev, data])
-          }}
-        )
+      })
     }
   };
 
@@ -103,7 +106,7 @@ export default function RecordCard({ record, setFavorites }) {
           {user && <CommentForm record={record} setComments={setComments} />}
           <div className='comments'>
             {comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} />
+              <CommentCard key={comment.id} comment={comment} handleCommentDelete={handleCommentDelete}/>
               ))}
           </div>
         </>

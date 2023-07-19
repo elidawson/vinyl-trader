@@ -98,8 +98,8 @@ class Record(db.Model, SerializerMixin):
         '-user.favorites',
         '-favorites.record',
         '-favorites.user',
-        '-created_at',
-        '-updated_at'
+        # '-created_at',
+        # '-updated_at'
     )
 
     def __repr__(self):

@@ -26,7 +26,7 @@ function Signup() {
         })
         .then((res) => res.json())
         .then(() => {
-        actions.resetForm()
+        // actions.resetForm()
         navigate('/')
         })
         .catch(error => alert(error))
@@ -38,9 +38,9 @@ function Signup() {
         <>
             <form className='form' onSubmit={formik.handleSubmit}>
                 <h1>signup</h1>
-                <label>username</label>
+                <label>username</label><br/>
                 <input value={formik.values.username} onChange={formik.handleChange} type='text' name='username' /><br/>
-                <label>password</label>
+                <label>password</label><br/>
                 <input value={formik.values.password} onChange={formik.handleChange} type='password' name='password' /><br/>
                 <input type='submit' value='signup' className='button' />
             </form>

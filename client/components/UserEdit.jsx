@@ -1,10 +1,12 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router';
 import { UserContext } from './App'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-export default function UserEdit({ toggleEdit }) {
+export default function UserEdit({ toggleEdit, setCurrUser }) {
     const user = useContext(UserContext);
+    const navigate = useNavigate()
 
     const formSchema = yup.object({
         username: yup.string(),
@@ -39,8 +41,9 @@ export default function UserEdit({ toggleEdit }) {
                 body: JSON.stringify(nonEmptyValues)
             })
             .then((res) => res.json())
-            .then(() => {
-                toggleEdit();
+            .then((data) => {
+                setCurrUser(data)
+                toggleEdit()
             })
             .catch(error => alert(error));
         }        
@@ -49,15 +52,16 @@ export default function UserEdit({ toggleEdit }) {
     return (
         <form className='record-form' onSubmit={formik.handleSubmit}>
             <h1>edit profile</h1>
-            <label>username</label>
+            <label>username</label><br/>
             <input value={formik.values.username} onChange={formik.handleChange} type='text' name='username' /><br/>
-            <label>name</label>
+            <label>name</label><br/>
             <input value={formik.values.name} onChange={formik.handleChange} type='text' name='name' /><br/>
-            <label>location</label>
+            <label>location</label><br/>
             <input value={formik.values.location} onChange={formik.handleChange} type='text' name='location' /><br/>
-            <label>bio</label>
+            <label>bio</label><br/>
             <input value={formik.values.bio} onChange={formik.handleChange} type='text' name='bio' /><br/>
-            <button type='submit'>save changes</button>
+            <button className='button' type='submit'>save changes</button>
+            <button className='button' onClick={() => navigate('/user')}>cancel changes</button>
     </form>
     )
 }

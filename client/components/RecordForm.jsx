@@ -45,15 +45,15 @@ export default function RecordForm() {
   return (
     <form className='record-form' onSubmit={formik.handleSubmit}>
       <h1>add record</h1>
-      <label>title</label>
+      <label>title</label><br/>
       <input value={formik.values.title} onChange={formik.handleChange} type='text' name='title' /><br/>
-      <label>artist</label>
+      <label>artist</label><br/>
       <input value={formik.values.artist} onChange={formik.handleChange} type='text' name='artist' /><br/>
-      <label>description</label>
+      <label>description</label><br/>
       <input value={formik.values.description} onChange={formik.handleChange} type='text' name='description' /><br/>
-      <label>image</label>
+      <label>image</label><br/>
       <input value={formik.values.image} onChange={formik.handleChange} type='text' name='image' /><br/>
-      <button type='submit'>submit</button>
+      <button className='button' type='submit'>submit</button>
     </form>
   )
 }
