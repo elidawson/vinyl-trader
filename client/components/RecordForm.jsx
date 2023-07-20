@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import '../stylesheets/forms.css'
 
 export default function RecordForm() {
   const user = useContext(UserContext);
@@ -43,17 +44,19 @@ export default function RecordForm() {
   });
 
   return (
-    <form className='record-form' onSubmit={formik.handleSubmit}>
+    <div className="form-container">
+    <form className='form' onSubmit={formik.handleSubmit}>
       <h1>add record</h1>
       <label>title</label><br/>
-      <input value={formik.values.title} onChange={formik.handleChange} type='text' name='title' /><br/>
+      <input value={formik.values.title} onChange={formik.handleChange} type='text' name='title' autoComplete="off" /><br/>
       <label>artist</label><br/>
-      <input value={formik.values.artist} onChange={formik.handleChange} type='text' name='artist' /><br/>
+      <input value={formik.values.artist} onChange={formik.handleChange} type='text' name='artist' autoComplete="off" /><br/>
       <label>description</label><br/>
-      <input value={formik.values.description} onChange={formik.handleChange} type='text' name='description' /><br/>
+      <input value={formik.values.description} onChange={formik.handleChange} type='text' name='description' autoComplete="off" /><br/>
       <label>image</label><br/>
-      <input value={formik.values.image} onChange={formik.handleChange} type='text' name='image' /><br/>
+      <input value={formik.values.image} onChange={formik.handleChange} type='text' name='image' autoComplete="off" /><br/>
       <button className='button' type='submit'>submit</button>
     </form>
+    </div>
   )
 }

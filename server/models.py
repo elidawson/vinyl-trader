@@ -5,7 +5,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from config import db, bcrypt
 
-
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
 
@@ -135,9 +134,6 @@ class User(db.Model, SerializerMixin):
     favorites = db.relationship('Favorite', back_populates='user', cascade='all, delete-orphan')
 
     serialize_rules = (
-        # '-records.user',
-        # '-records.comments',
-        # '-records.favorites',
         '-favorites.user',
         '-_password_hash',
         '-created_at',

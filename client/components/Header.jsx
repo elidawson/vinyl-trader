@@ -1,44 +1,51 @@
-import '../stylesheets/header.css'
-import { Outlet, Link } from 'react-router-dom'
-import { useNavigate } from 'react-router'
-import { UserContext } from './App'
-import { useContext } from 'react'
+import "../stylesheets/header.css";
+import { Outlet, Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { UserContext } from "./App";
+import { useContext } from "react";
 
-export default function Header({ setUser, handleLogout }) {
-  const user = useContext(UserContext)
-  const navigate = useNavigate()
-
-  const handleLogoutClick = () => {
-    handleLogout();
-    navigate('/');
-  };
+export default function Header({ handleLogout }) {
+  const user = useContext(UserContext);
+  const navigate = useNavigate();
 
   return (
     <>
-      <div className='header-div'>
-        <h1 className='page-title'>vinyl trader🔊</h1>
-        <div className='nav'>
-        <Link to='/' className='header-text' onClick={() => window.scrollTo(0,0)}>feed</Link>
-          {user ? (
-              <Link to='/records/new' className='nav-link'>post record</Link>
-          ) : (
-            null
+      <div className="header-div">
+        <h1 className="page-title">vinyl trader 🔊</h1>
+        {user ? (
+          <div className="user-menu">
+            <div>
+              <span>hello, {user.name}</span>
+              <br />
+              <button className="small-button" onClick={() => navigate("/user")}>
+                my profile
+              </button>
+            </div>
+          </div>
+        ) : (
+          <Link to="/login" className="button">
+            login/signup
+          </Link>
+        )}
+        <div className="nav">
+          
+          {user && (
+            <>
+            <NavLink
+            to="/"
+            className="nav-link"
+            onClick={() => window.scrollTo(0, 0)}
+          >
+            browse
+          </NavLink><br/>
+            <NavLink to="/records/new" className="nav-link">
+            new record
+            </NavLink>
+            </>
           )}
         </div>
-          {user ? (
-            <div className='user-menu'>
-              <img src={user.image} className='header-user-img'/><br/>
-              <div>
-                <span className='glow'>hello, {user.name}</span><br/>
-                <button className='button' onClick={() => navigate('/user')}>my profile</button>
-                <button className='button' onClick={handleLogoutClick}>logout</button>
-              </div>
-            </div>
-          ) : (
-            <Link to='/login' className='button'>login/signup</Link>
-          )}
       </div>
       <Outlet />
     </>
-  )
+  );
 }

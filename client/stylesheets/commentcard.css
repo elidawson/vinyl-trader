@@ -1,8 +1,8 @@
 .comment-card{
-    background-color: white;
+    background-color: rgba(179, 205, 224, 0.97);
     border-radius: 20px;
     padding: 10px;
     min-width: 20vw;
-    border: solid black;
+    text-align: center;
     margin: 10px;
 }

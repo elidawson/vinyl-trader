@@ -195,6 +195,19 @@ class CommentsById( Resource ):
             return make_response({}, 204)
         except:
             return make_response({"error": "user not found"}, 404)
+        
+    def patch( self, id ):
+        comment = Comment.query.filter_by(id=id).first()
+        if not comment:
+            return make_response({"error": "comment not found"}, 404)
+        try:
+            for attr in request.get_json():
+                setattr(comment, attr, request.get_json()[attr])
+            db.session.add(comment)
+            db.session.commit()
+            return make_response(comment.to_dict(), 200)
+        except:
+            return make_response({"error": "failed to patch"}, 400)
 
 api.add_resource(CommentsById, '/api/comments/<int:id>')
 

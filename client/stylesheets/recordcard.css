@@ -1,55 +1,73 @@
 .record-card{
-    background-color: #f3d2c1;
+    background-color: #6497b1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    position: relative;
     width: 80vw;
-    border: solid black;
-    border-radius: 10px;
+    border-radius: 20px;
     margin: 20px;
 }
 
-.record-card:hover{
-    box-shadow: 0 5px 15px #f582ae;
+.flex-this{
+    display: flex;
 }
 
 .record-title{
-    align-items: center;
+    font-size: 1.6em;
+    margin: 0;
+    font-style: bold;
+}
+
+.record-description{
+    font-size: .8em;
+    margin-top: 40px;
+}
+
+.record-artist{
+    margin-top: 0px;
+    font-size: 1.4rem;
+    margin: 0;
+    padding-left: 3px;
 }
 
 .record-image{
     height: 100%;
-    /* margin-right: auto;
-    margin-bottom: auto; */
     width: 25%;
     border-radius: 8px;
 }
 
-.favs{
-    display: flex;
+.record-user{
+    font-size: .5em;
+    margin: 0;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
 }
 
-.container{
-    align-items: center;
-    display: flex;
-    width: 100%;
-    height: 100%;
+.favs{
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .info-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width:75%;
-    height: 100%;
-    padding: 10px;
+    position: relative;
+    padding: 20px;
 }
 
 .comments{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    /* flex-direction: column; */
-    align-items: center;
     justify-content: space-around;
+}
+
+.comment-container{
+    width: 100%;
+    text-align: center;
+}
+
+.comment-input{
+    width: 50%;
 }

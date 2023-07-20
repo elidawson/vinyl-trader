@@ -1,20 +1,22 @@
 import '../stylesheets/recordcard.css'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useLocation } from 'react-router';
 import { useState, useContext, useEffect } from 'react'
 import { UserContext } from './App'
 import CommentCard from './CommentCard';
 
-export default function RecordCard({ record, setFavorites }) {
+export default function RecordCard({ record, setUserFavorites }) {
   const user = useContext(UserContext);
-  const [ show, setShow ] = useState(false);
-  const [ comments, setComments ] = useState([]);
+  const location = useLocation()
+  const [ commentsRecord, setCommentsRecord ] = useState([]);
   const [ likes, setLikes ] = useState([])
   const [ userLiked, setUserLiked ] = useState(false);
+  const [ show, setShow ] = useState(false);
   const toggleShow = () => setShow((prev) => !prev);
 
   useEffect(() => {
-    setComments(record.comments);
+    setCommentsRecord(record.comments);
     setLikes(record.favorites);
     if (user) {
       if (record.favorites.some((favorite) => favorite.user_id === user.id)) {
@@ -23,72 +25,82 @@ export default function RecordCard({ record, setFavorites }) {
     }
   }, [user]);
 
-  const handleCommentDelete = (commentId) => {
-    fetch(`/api/comments/${commentId}`, {
-      method: 'DELETE',
+  const addLike = () => {
+    setUserLiked(true);
+    fetch('/api/favorites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user_id: user.id, record_id: record.id }),
     })
-      .then(() => {
-        setComments((prevComments) => prevComments.filter((comment) => comment.id !== commentId));
+      .then((res) => res.json())
+      .then((data) => {
+        if (location.pathname === '/users') {
+          setUserFavorites((prev) => [...prev, data]);
+        } 
+        if (location.pathname === '/') {
+          setLikes((prev) => [...prev, data]);
+        }
       })
-      .catch((error) => console.error('Delete Error:', error));
+      .catch((error) => console.error('Add Like Error:', error));
   };
 
-  const addLike = () => {
-    if (!userLiked) {
-      setUserLiked(true);
-      fetch('/api/favorites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user_id: user.id, record_id: record.id })
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setFavorites((prev) => [...prev, data])
-            setLikes((prev) => [...prev, data])
-      })
+  const deleteLike = async () => {
+    try {
+      setUserLiked(false);
+      const userLike = await findUserLike();
+      if (userLike) {
+        await fetch(`/api/favorites/${userLike.id}`, {
+          method: 'DELETE',
+        });
+        console.log('userLike:', userLike);
+        console.log('location.pathname:', location.pathname);
+        if (location.pathname === '/user') {
+          setUserFavorites((prev) => prev.filter((favorite) => favorite.id !== userLike.id));
+        }  
+        if (location.pathname === '/') {
+          setLikes((prevLikes) => prevLikes.filter((like) => like.id !== userLike.id));
+        }
+  
+      } else {
+        console.log('User like not found.');
+      }
+    } catch (err) {
+      console.error('Error removing like:', err);
     }
   };
-
-  const deleteLike = () => {
-    const userLike = likes.find((favorite) => favorite.user_id === user.id);
-    fetch(`/api/favorites/${userLike.id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        try{
-          setFavorites((prevFavorites) => prevFavorites.filter((favorite) => favorite.id !== userLike.id));
-          setUserLiked(false);
-        }
-        catch(err){
-          null
-        }
-        finally{
-          setLikes((prevLikes) => prevLikes.filter((like) => like.id !== userLike.id));
-          setUserLiked(false);
-        }
-      })
-      .catch((error) => console.error('Delete Error:', error));
+  
+  
+  const findUserLike = () => {
+    return new Promise((resolve, reject) => {
+      const userLike = likes.find((like) => like.user_id === user.id);
+      if (userLike) {
+        resolve(userLike);
+      } else {
+        reject(new Error('User like not found.'));
+      }
+    });
   };
+  
 
   return (
     <div className='record-card'>
-      <div className='container'>
+        <div className='flex-this'>
         <img className='record-image' src={record.image} alt='record-image' />
         <div className='info-container'>
           <div className='record-title'>
-            <p>posted by: {record.user.username}</p>
-            <h2>{record.title}</h2>
-            <h2>{record.artist}</h2>
-            <p>{record.description}</p>
+            <h2 className='record-title'>{record.title}</h2>
+            <h2 className='record-artist'>{record.artist}</h2>
+            <p className='record-description'>{record.description}</p>
+            <p className='record-user'>posted by: {record.user.username}</p>
           </div>
           <div className='favs'>
-            <button className='button' onClick={toggleShow}>💬 {comments.length}</button>
+            <button className='button' onClick={toggleShow}>💬 {commentsRecord.length}</button>
             {userLiked ? (
               <>
                 <button className='button' onClick={deleteLike}>
-                  ✔️ favorited!
+                  ✔️ favorited! {likes.length}
                 </button>
               </>
             ) : user ? (
@@ -96,20 +108,22 @@ export default function RecordCard({ record, setFavorites }) {
                 ❤️ {likes.length}
               </button>
             ) : (
-              <p>❤️ {likes.length}</p>
+              <button className='button'>
+                ❤️ {likes.length}
+              </button>
             )}
           </div>
+          </div>
         </div>
-      </div>
       { show ? (
-        <>
-          {user && <CommentForm record={record} setComments={setComments} />}
+        <div className='comment-container'>
+          {user && <CommentForm record={record} setComments={setCommentsRecord} />}
           <div className='comments'>
-            {comments.map((comment) => (
-              <CommentCard key={comment.id} comment={comment} handleCommentDelete={handleCommentDelete}/>
+            {commentsRecord.map((comment) => (
+              <CommentCard key={comment.id} comment={comment} />
               ))}
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   );
@@ -156,9 +170,9 @@ export function CommentForm({ record, setComments }) {
         onChange={formik.handleChange}
         type='text' name='body'
         placeholder='add a comment...'
-        className='comment-input'
+        // className='comment-input'
       /><br/>
-      <button className='button' type='submit'>post comment</button>
+      <button className='small-button' type='submit'>post comment</button>
     </form>
   )
 }

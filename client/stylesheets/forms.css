@@ -1,0 +1,20 @@
+.form{
+    /* display: flex;
+    flex-direction: column; */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container{
+    text-align: center;
+    /* height: 50vh; */
+    padding: 10px;
+    padding-bottom: 50px;
+    align-items: center;
+    background-color: white;
+    margin-left: 35%;
+    margin-right: 35%;
+    background-color: rgba(179, 205, 224, 0.97);
+    border-radius: 10px;
+}
