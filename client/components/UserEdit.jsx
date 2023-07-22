@@ -27,6 +27,13 @@ export default function UserEdit({ toggleEdit, setCurrUser }) {
     },
     validationSchema: formSchema,
     onSubmit: (values, actions) => {
+      // const nonEmptyValues = {};
+      // Object.entries(values).forEach(([key, value]) => {
+      //   if (value.trim() !== "") {
+      //     nonEmptyValues[key] = value;
+      //   }
+      // });
+
       fetch(`/api/users/${user.id}`, {
         method: "PATCH",
         headers: {

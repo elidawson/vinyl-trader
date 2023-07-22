@@ -15,7 +15,7 @@ export default function Header({ handleLogout }) {
         {user ? (
           <div className="user-menu">
             <div>
-              <span>hello, {user.name}</span>
+              <span>hello {user.name}</span>
               <br />
               <button className="small-button" onClick={() => navigate("/user")}>
                 my profile
